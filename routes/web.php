@@ -22,12 +22,17 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 
+Route::group(['namespace' => 'App\Http\Controllers'], function()
+{   
+    Route::group(['middleware' => ['auth']], function() {
+        Route::get('/sellers-list', 'SellerController@index');
+        Route::get('/seller-register', 'SellerController@new');
+        Route::post('/seller-register', 'SellerController@register')->name('seller-register');
+        Route::post('/seller-delete/{id}', 'SellerController@destroy');
+    });
+});
 /* Rotas CRUD Vendedor */
-Route::get('/seller-register', function() {
-    return view('seller.registration');
-})->middleware(['auth'])->name('seller-registration');
 
-Route::post('/seller-register', [SellerController::class, 'register'])->middleware(['auth'])->name('seller-register');
 
 
 require __DIR__.'/auth.php';
