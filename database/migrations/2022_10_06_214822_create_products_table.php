@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name', 255);
             $table->double('price', 8, 2);
             $table->integer('sold_amount')->default('0');
+            $table->double('profit')->default('0');
             $table->tinyInteger('del')->default('0');
             $table->timestamps();
         });

@@ -18,6 +18,8 @@ class CreateSellerTable extends Migration
             $table->string('name', 255);
             $table->string('role', 255);
             $table->integer('age');
+            $table->integer('sales_quantity')->default('0');
+            $table->double('sales_total', 8, 2)->default('0');
             $table->tinyInteger('del')->default('0');
             $table->timestamps();
         });
