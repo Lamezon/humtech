@@ -1,10 +1,13 @@
+body{
+    text-align: center;
+}
 .logged-as h3{
     color: rgb(27, 216, 27);
     padding-bottom: 10px;
     text-align: center;
 }
 .page-title{
-    font-size: 18px;
+    font-size: 30px;
     text-align: center;
     font-weight: bold;
 }
@@ -15,4 +18,21 @@
 .form-send:hover{
     color: white;
     background-color: rgb(4, 83, 83);
+}
+.dataTables_wrapper .dataTables_length select{
+    padding-right: 30px !important;
+    margin-right: 5px;
+}
+.dataTables_filter{
+    margin-right: 5px;
+}
+select#seller_id, select#product_id{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.page-main{
+    text-align: center;
+    font-size: 18px;
+    color: darkred;
+    text-decoration: underline;
 }
