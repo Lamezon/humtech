@@ -12,25 +12,21 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nome</th>
+                    <th scope="col">Setor</th>
                     <th scope="col">Quantidade de Vendas</th>         
                     <th scope="col">Total de Vendas</th>
-                    <th>Lista</th>
                 </tr>
                 </thead>
                 <tbody>
               
                 <?php
-                foreach ($product as $row)  
+                foreach ($sellers as $row)  
                 {?>
                     <td><?= $row['id']?></td>   
                     <td><?= $row['name']?></td>
-                    <td><?= $row['price']?></td>
-                    <td><?= $row['sold_amount']?></td>              
-                    <td><a href="product-edit/<?=$row['id']?>"><button style="width:100%" class="btn btn-info"><i class="fas fa-edit"></i></button></a></td>
-                    <form method="POST" action="/product-delete/<?=$row['id']?>">
-                    {{ csrf_field() }}
-                        <td><a><button class="btn btn-block btn-danger"><i class="fa-solid fa-trash-can"></i></button></a></td>
-                    </form>    
+                    <td><?= $row['role']?></td>               
+                    <td><?= $row['sales_quantity']?></td>
+                    <td>R$<?= $row['sales_total']?></td>   
                 </tr>  
                 <?php } ?>
                 </tbody>

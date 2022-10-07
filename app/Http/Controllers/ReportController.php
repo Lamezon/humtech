@@ -15,13 +15,16 @@ class ReportController extends Controller
     {
         return view('report.index');
     }
-    public function products(){
-        $sellers = DB::table('sales')
-        ->orderBy('seller_id', 'asc')
-        ->get()
-        ->groupBy('seller_id');
-
-        print($sellers);
+    public function sellers(){
+        $sellers = DB::table('sellers')->where('del', 0)->orderBy('sales_total', 'desc')->get();
+        $result = json_decode($sellers, true);
+        return view('report.sellers', ['sellers'=> $result]);
     }
+    public function products(){
+        $product = DB::table('products')->where('del', 0)->orderBy('profit', 'desc')->get();
+        $result = json_decode($product, true);
+        return view('report.products', ['products'=> $result]);
+    }
+
 
 }
