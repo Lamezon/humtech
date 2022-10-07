@@ -6,6 +6,7 @@ use App\Http\Requests\SellerRequest;
 use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SellerController extends Controller
 {
@@ -34,6 +35,7 @@ class SellerController extends Controller
         $seller['role']=$_POST['role'];
         $seller['age']=$_POST['age'];
         $seller->save();
+        Log::channel('custom')->info('Vendedor de ID = '.$seller['id'].' alterado por '.auth()->user()->name.'.');
         return redirect('/sellers-list')->with('success', "Registro Atualizado");
     }
 
@@ -45,6 +47,7 @@ class SellerController extends Controller
         $seller->role = request('role');
         $seller->age = request('age');
         $seller->save();
+        Log::channel('custom')->info('Vendedor de ID = '.$seller['id'].' criado por '.auth()->user()->name.'.');
         return redirect('/sellers-list')->with('success', "Registro Criado");
     }
 
@@ -52,8 +55,7 @@ class SellerController extends Controller
     public function destroy($id)
     {
         Seller::where('id', $id)->update(['del' => 1]);        
-        $sellers = DB::table('sellers')->where('del', 0)->get();
-        $result = json_decode($sellers, true);
+        Log::channel('custom')->info('Vendedor de ID = '.$id.' deletado por '.auth()->user()->name.'.');
         return redirect('/sellers-list')->with('success', "Registro Removido");
     }
 }

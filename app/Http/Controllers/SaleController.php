@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SaleController extends Controller
 {
@@ -24,18 +25,18 @@ class SaleController extends Controller
 
     public function new()
     {
-        $sellers = DB::table('sellers')->get();
+        $sellers = DB::table('sellers')->where('del', 0)->get();
         $result_seller = json_decode($sellers, true);
-        $product = DB::table('products')->get();
+        $product = DB::table('products')->where('del', 0)->get();
         $result_product = json_decode($product, true);
         return view('sales.new', ['seller'=>$result_seller, 'product'=>$result_product]);
     }
 
     public function edit($id)
     {
-        $sellers = DB::table('sellers')->get();
+        $sellers = DB::table('sellers')->where('del', 0)->get();
         $result_seller = json_decode($sellers, true);
-        $product = DB::table('products')->get();
+        $product = DB::table('products')->where('del', 0)->get();
         $result_product = json_decode($product, true);
         $sale = DB::table('sales')->where('id', $id)->first();
         return view('sales.show', ['seller'=>$result_seller, 'product'=>$result_product, 'sale'=>$sale]);
@@ -49,6 +50,7 @@ class SaleController extends Controller
         $sale['quantity']=$_POST['quantity'];
         $sale['total']=$_POST['total'];
         $sale->save();
+        Log::channel('custom')->info('Venda de ID = '.$sale['id'].' alterada por '.auth()->user()->name.'.');
         return redirect('/sales-list')->with('success', "Venda Atualizada");
     }
 
@@ -61,6 +63,7 @@ class SaleController extends Controller
         $sale->quantity = request('quantity');
         $sale->total = request('total');
         $sale->save();
+        Log::channel('custom')->info('Venda de ID = '.$sale['id'].' criada por '.auth()->user()->name.'.');
         return redirect('/sales-list')->with('success', "Venda Registrada");
     }
 
@@ -68,8 +71,7 @@ class SaleController extends Controller
     public function destroy($id)
     {
         Sale::where('id', $id)->update(['del' => 1]);        
-        $sale = DB::table('sales')->where('del', 0)->get();
-        $result = json_decode($sale, true);
+        Log::channel('custom')->info('Venda de ID = '.$id.' deletada por '.auth()->user()->name.'.');
         return redirect('/sales-list')->with('success', "Venda Removida");
     }
 }

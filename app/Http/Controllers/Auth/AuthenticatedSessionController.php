@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,6 +33,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        /* Log */
+        Log::channel('custom')->info('Login Realizado por '.$request->user()->name.', ID: '.$request->user()->id.', E-Mail: '.$request->user()->email.'');
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -46,7 +49,7 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
+        Log::channel('custom')->info('Logout Realizado');
         $request->session()->regenerateToken();
 
         return redirect('/');

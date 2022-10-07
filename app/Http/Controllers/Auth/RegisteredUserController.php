@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Log;
 
 class RegisteredUserController extends Controller
 {
@@ -46,9 +47,9 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
+        Log::channel('custom')->info('Criado novo acesso. '.$user.'');
         Auth::login($user);
-
+        
         return redirect(RouteServiceProvider::HOME);
     }
 }

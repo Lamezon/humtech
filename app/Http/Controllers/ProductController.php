@@ -6,6 +6,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -34,6 +35,7 @@ class ProductController extends Controller
         $product['price']=$_POST['price'];
         $product['sold_amount']=$_POST['sold_amount'];
         $product->save();
+        Log::channel('custom')->info('Produto '.$product['name'].' alterado por '.auth()->user()->name.'.');
         return redirect('/products-list')->with('success', "Produto Atualizado");
     }
 
@@ -45,15 +47,15 @@ class ProductController extends Controller
         $product->price = request('price');
         $product->sold_amount = request('sold_amount');
         $product->save();
+        Log::channel('custom')->info('Produto '.$product['name'].' criado por '.auth()->user()->name.'.');
         return redirect('/products-list')->with('success', "Produto Criado");
     }
 
 /* Setting del = 1 (no data lost) */
     public function destroy($id)
     {
-        Product::where('id', $id)->update(['del' => 1]);        
-        $product = DB::table('products')->where('del', 0)->get();
-        $result = json_decode($product, true);
+        Product::where('id', $id)->update(['del' => 1]);
+        Log::channel('custom')->info('Produto de ID = '.$id.' deletado por '.auth()->user()->name.'.');       
         return redirect('/products-list')->with('success', "Produto Removido");
     }
 }
