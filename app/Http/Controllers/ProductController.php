@@ -33,7 +33,6 @@ class ProductController extends Controller
         $product = Product::where('id', '=', $id)->first();
         $product['name']=$_POST['name'];
         $product['price']=$_POST['price'];
-        $product['sold_amount']=$_POST['sold_amount'];
         $product->save();
         Log::channel('custom')->info('Produto '.$product['name'].' alterado por '.auth()->user()->name.'.');
         return redirect('/products-list')->with('success', "Produto Atualizado");
@@ -45,7 +44,6 @@ class ProductController extends Controller
         $product = new Product();
         $product->name = request('name');
         $product->price = request('price');
-        $product->sold_amount = request('sold_amount');
         $product->save();
         Log::channel('custom')->info('Produto '.$product['name'].' criado por '.auth()->user()->name.'.');
         return redirect('/products-list')->with('success', "Produto Criado");

@@ -25,14 +25,6 @@
             @endif
         </div>
 
-        <div class="form-group form-floating mb-3">
-            <input type="number" class="form-control" value="0" name="sold_amount" min="0" placeholder="Quantia Vendida" required="required" autofocus>
-            <label for="sold_amount">Quantia Vendida</label>
-            @if ($errors->has('sold_amount'))
-                <span class="text-danger text-left">{{ $errors->first('sold_amount') }}</span>
-            @endif
-        </div>
-
         <button class="w-100 btn btn-lg form-send" type="submit">Registrar</button>
     </form>
         @endauth

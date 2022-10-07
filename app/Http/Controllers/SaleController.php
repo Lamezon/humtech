@@ -54,11 +54,10 @@ class SaleController extends Controller
         $sale->save();
         $total_value = ((int)$_POST['total']);
         $quantity_value = ((int)$_POST['quantity']);
+
         /* DataBase updates */
         DB::table('sellers')->whereId($_POST['seller_id'])->decrement('sales_total', (int)$old_sale_total);
         DB::table('sellers')->whereId($_POST['seller_id'])->increment('sales_total', $total_value);
-        DB::table('sellers')->whereId($_POST['seller_id'])->decrement('sales_quantity', (int)$old_sale_quantity);
-        DB::table('sellers')->whereId($_POST['seller_id'])->increment('sales_quantity', $quantity_value);
 
         DB::table('products')->whereId($_POST['product_id'])->decrement('profit', (int)$old_sale_total);
         DB::table('products')->whereId($_POST['product_id'])->increment('profit', $total_value);
@@ -81,10 +80,12 @@ class SaleController extends Controller
         $sale->save();
         $total_value = ((int)request('total'));
         $quantity_value = ((int)request('quantity'));
+
         DB::table('sellers')->whereId(request('seller_id'))->increment('sales_total', $total_value);
         DB::table('sellers')->whereId(request('seller_id'))->increment('sales_quantity', 1);
         DB::table('products')->whereId(request('product_id'))->increment('profit', $total_value);
         DB::table('products')->whereId(request('product_id'))->increment('sold_amount', $quantity_value);
+
         Log::channel('custom')->info('Venda de ID = '.$sale['id'].' criada por '.auth()->user()->name.'.');
         return redirect('/sales-list')->with('success', "Venda Registrada");
     }
@@ -92,7 +93,14 @@ class SaleController extends Controller
 /* Setting del = 1 (no data lost) */
     public function destroy($id)
     {
-        Sale::where('id', $id)->update(['del' => 1]);      
+        Sale::where('id', $id)->update(['del' => 1]);
+
+        $sale = Sale::where('id', '=', $id)->first();
+        DB::table('products')->whereId($sale['product_id'])->decrement('profit', (int)$sale['total']);
+        DB::table('products')->whereId($sale['product_id'])->decrement('sold_amount', (int)$sale['quantity']);
+        DB::table('sellers')->whereId($sale['seller_id'])->decrement('sales_total', (int)$sale['total']);
+        DB::table('sellers')->whereId($sale['seller_id'])->decrement('sales_quantity', 1);
+
         Log::channel('custom')->info('Venda de ID = '.$id.' deletada por '.auth()->user()->name.'.');
         return redirect('/sales-list')->with('success', "Venda Removida");
     }
