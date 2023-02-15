@@ -25,7 +25,7 @@ class ClientController extends Controller
     public function edit($id)
     {
         $client = DB::table('clients')->where('id', $id)->first();
-        return view('client.show', ['client'=> $client]);
+        return view('client.edit', ['client'=> $client]);
     }
 
     public function save($id)
@@ -34,6 +34,7 @@ class ClientController extends Controller
         $client['name']=$_POST['name'];
         $client['cpf']=$_POST['cpf'];
         $client['phone']=$_POST['phone'];
+        $client['address']=$_POST['address'];
         $client->save();
         Log::channel('custom')->info('Cliente de ID = '.$client['id'].' alterado por '.auth()->user()->name.'.');
         return redirect('/clients-list')->with('success', "Registro Atualizado");
@@ -46,6 +47,7 @@ class ClientController extends Controller
         $client->name = request('name');
         $client->cpf = request('cpf');
         $client->phone = request('phone');
+        $client->address = request('address');
         $client->save();
         Log::channel('custom')->info('Cliente de ID = '.$client['id'].' criado por '.auth()->user()->name.'.');
         return redirect('/clients-list')->with('success', "Registro Criado");

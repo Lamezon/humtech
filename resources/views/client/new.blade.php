@@ -26,6 +26,14 @@
         </div>
 
         <div class="form-group form-floating mb-3">
+            <input type="text" class="form-control" name="address" placeholder="Endereço" autofocus>
+            <label for="address">Endereço do Cliente</label>
+            @if ($errors->has('address'))
+                <span class="text-danger text-left">{{ $errors->first('address') }}</span>
+            @endif
+        </div>
+
+        <div class="form-group form-floating mb-3">
             <input type="text" class="form-control" name="phone" placeholder="Telefone" required="required" autofocus>
             <label for="name">Telefone do Cliente</label>
             @if ($errors->has('phone'))
