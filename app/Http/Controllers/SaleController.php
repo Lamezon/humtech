@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaleRequest;
 use App\Models\Sale;
+use App\Models\User;
+use App\Models\Earn;
 use App\Models\Product;
+use App\Models\SalesProduct;
 use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,11 +19,26 @@ class SaleController extends Controller
     {
         $sale = DB::table('sales')->where('del', 0)->get();
         $result_sale = json_decode($sale, true);
-        $sellers = DB::table('sellers')->get();
-        $result_seller = json_decode($sellers, true);
-        $product = DB::table('products')->get();
+        $users = DB::table('users')->get();
+        $result_users = json_decode($users, true);
+        $cash = DB::table('earns')->where('id', 1)->get();
+        $total = json_decode($cash, true);
+        return view('sales.list', ['sale'=> $result_sale, 'users'=>$result_users, 'total' => $total]);
+    }
+
+    public function view($id)
+    {
+        $sale = DB::table('sales')->where('id', $id)->first();
+        $sale_description = DB::table('sales_products')->where('sale_id', $sale->id)->get();
+        $sale_desc = json_decode($sale_description, true);
+        $valores = explode(", ", $sale_desc[0]['products_code']);
+        $contagem = array_count_values($valores);
+       
+        $prod_codes = ($sale_desc[0]['products_code']);
+        $codes = explode(',', $prod_codes);
+        $product = DB::table('products')->where('del', 0)->get();
         $result_product = json_decode($product, true);
-        return view('sales.list', ['sale'=> $result_sale, 'seller'=>$result_seller, 'product'=>$result_product]);
+        return view('sales.show', ['sale'=> $sale, 'codes'=>$codes, 'products'=>$result_product]);
     }
 
     public function new()
@@ -29,64 +47,43 @@ class SaleController extends Controller
         $result_seller = json_decode($sellers, true);
         $product = DB::table('products')->where('del', 0)->get();
         $result_product = json_decode($product, true);
-        return view('sales.new', ['seller'=>$result_seller, 'product'=>$result_product]);
+        $clients = DB::table('clients')->where('del', 0)->get();
+        $result_clients = json_decode($clients, true);
+        return view('sales.new', ['seller'=>$result_seller, 'product'=>$result_product, 'client'=>$result_clients]);
     }
 
-    public function edit($id)
+
+    public function register(Request $request)
     {
-        $sellers = DB::table('sellers')->where('del', 0)->get();
-        $result_seller = json_decode($sellers, true);
-        $product = DB::table('products')->where('del', 0)->get();
-        $result_product = json_decode($product, true);
-        $sale = DB::table('sales')->where('id', $id)->first();
-        return view('sales.show', ['seller'=>$result_seller, 'product'=>$result_product, 'sale'=>$sale]);
-    }
-
-    public function save($id)
-    {
-        $sale = Sale::where('id', '=', $id)->first();
-        $sale['seller_id']=$_POST['seller_id'];
-        $sale['product_id']=$_POST['product_id'];
-        $old_sale_quantity=$sale['quantity'];
-        $sale['quantity']=$_POST['quantity'];
-        $old_sale_total=$sale['total'];
-        $sale['total']=$_POST['total'];
-        $sale->save();
-        $total_value = ((int)$_POST['total']);
-        $quantity_value = ((int)$_POST['quantity']);
-
-        /* DataBase updates */
-        DB::table('sellers')->whereId($_POST['seller_id'])->decrement('sales_total', (int)$old_sale_total);
-        DB::table('sellers')->whereId($_POST['seller_id'])->increment('sales_total', $total_value);
-
-        DB::table('products')->whereId($_POST['product_id'])->decrement('profit', (int)$old_sale_total);
-        DB::table('products')->whereId($_POST['product_id'])->increment('profit', $total_value);
-        DB::table('products')->whereId($_POST['product_id'])->decrement('sold_amount', (int)$old_sale_quantity);
-        DB::table('products')->whereId($_POST['product_id'])->increment('sold_amount', $quantity_value);
-        
-        
-        Log::channel('custom')->info('Venda de ID = '.$sale['id'].' alterada por '.auth()->user()->name.'.');
-        return redirect('/sales-list')->with('success', "Venda Atualizada");
-    }
-
-    public function register(SaleRequest $request)
-    {
-        $request->validated();
+        $name = request('seller_name');
+        $seller = User::where('name', '=', $name)->first();
         $sale = new Sale();
-        $sale->seller_id = request('seller_id');
-        $sale->product_id = request('product_id');
-        $sale->quantity = request('quantity');
-        $sale->total = request('total');
+        $sale->code = $request['sale_code'];
+        $sale->seller_id = $seller['id'];
+        $sale->client_id = $request['client_id'];
+        $total = doubleval(str_replace(',', '.', request('total-sell')));
+        $sale->total = $total;
+
+        $earn = Earn::where('id', '=', '1')->first();
+        $earn['atual']+=$total;
+        $earn->save();
+      
         $sale->save();
-        $total_value = ((int)request('total'));
-        $quantity_value = ((int)request('quantity'));
+        
+        $prod_desc = new SalesProduct();
+        $prod_desc->sale_id = $sale->id;
 
-        DB::table('sellers')->whereId(request('seller_id'))->increment('sales_total', $total_value);
-        DB::table('sellers')->whereId(request('seller_id'))->increment('sales_quantity', 1);
-        DB::table('products')->whereId(request('product_id'))->increment('profit', $total_value);
-        DB::table('products')->whereId(request('product_id'))->increment('sold_amount', $quantity_value);
+        $prod_desc->products_code = $request['ids-products'];
+        $prod_desc->save();
 
-        Log::channel('custom')->info('Venda de ID = '.$sale['id'].' criada por '.auth()->user()->name.'.');
+        $sale_description = DB::table('sales_products')->where('sale_id', $sale->id)->get();
+        $sale_desc = json_decode($sale_description, true);
+        $valores = explode(",", $sale_desc[0]['products_code']);
+        foreach ($valores as &$valor) {
+            DB::table('products')->whereId((int)($valor))->increment('sold_amount_access', 1);
+        }
+
+        Log::channel('custom')->info('Caixa alterado. User: '.auth()->user()->name.'.');
         return redirect('/sales-list')->with('success', "Venda Registrada");
     }
 

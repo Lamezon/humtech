@@ -16,8 +16,8 @@ class CreateSellerTable extends Migration
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->string('role', 255);
-            $table->integer('age');
+            $table->string('role', 255)->default('Vendedor');
+            $table->integer('age')->default(0);
             $table->integer('sales_quantity')->default('0');
             $table->double('sales_total', 8, 2)->default('0');
             $table->tinyInteger('del')->default('0');

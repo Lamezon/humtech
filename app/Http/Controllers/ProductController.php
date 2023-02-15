@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         $product = DB::table('products')->where('del', 0)->get();
-        $result = json_decode($product, true);
+        $result = json_decode($product, true);        
         return view('product.list', ['product'=> $result]);
     }
 

@@ -5,33 +5,34 @@
 <div class="bg-light p-5 rounded">
         @auth
        
-        <span class="page-title">Relatório de Produtos</span>
-        <div class="table-responsive">
-            <table id="table" style="text-align:center" class="table table-striped table-hover table-bordered table-sm border-light">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome do Produto</th>
-                    <th scope="col">Preço</th>
-                    <th scope="col">Número de Vendas</th>         
-                    <th scope="col">Valor de Vendas</th>
-                </tr>
-                </thead>
-                <tbody>
-              
-                <?php
-                foreach ($products as $row)  
-                {?>
-                    <td><?= $row['id']?></td>   
-                    <td><?= $row['name']?></td>
-                    <td><?= $row['price']?></td>               
-                    <td><?= $row['sold_amount']?></td>
-                    <td>R$<?= $row['profit']?></td>   
-                </tr>  
-                <?php } ?>
-                </tbody>
-
-            </table>
-        </div>
+        <div class="container"> 
+            <h1 class="text-center mt-5">Relatório de Vendas</h1> 
+            <table class="table mt-5"> 
+               <thead> 
+                  <tr> 
+                     <th>Nome</th> 
+                     <th>Quantidade vendida</th> 
+                     <th>Horário da venda</th> 
+                  </tr> 
+               </thead> 
+               <tbody> 
+                  <tr> 
+                     <td>Produto 1</td> 
+                     <td>10</td> 
+                     <td>10:00</td> 
+                  </tr> 
+                  <tr> 
+                     <td>Produto 2</td> 
+                     <td>5</td> 
+                     <td>11:00</td> 
+                  </tr> 
+                  <tr> 
+                     <td>Produto 3</td> 
+                     <td>15</td> 
+                     <td>12:00</td> 
+                  </tr> 
+               </tbody> 
+            </table> 
+         </div> 
         @endauth
 @endsection

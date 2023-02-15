@@ -16,9 +16,9 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->integer('seller_id');
-            $table->integer('product_id');
-            $table->integer('quantity')->default('0');
+            $table->integer('client_id');
             $table->double('total', 8, 2)->default('0');
+            $table->string('code',255)->default('');
             $table->tinyInteger('del')->default('0');
             $table->timestamps();
         });

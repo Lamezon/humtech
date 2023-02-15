@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Humtech Shop'),
+    'name' => env('APP_NAME', 'KubaProject'),
 
     /*
     |--------------------------------------------------------------------------

@@ -65,6 +65,11 @@ return [
             'path' => storage_path('logs/custom.log'),
             'level' => 'debug',
         ],
+        'acesso' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/acesso.log'),
+            'level' => 'debug',
+        ],
 
         'daily' => [
             'driver' => 'daily',

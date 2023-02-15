@@ -12,8 +12,6 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nome</th>
-                    <th scope="col">Setor</th>         
-                    <th scope="col">Idade</th>
                     <th>Editar</th>
                     <th>Deletar</th>
                 </tr>
@@ -25,8 +23,6 @@
                 {?>
                     <td><?= $row['id']?></td>   
                     <td><?= $row['name']?></td>
-                    <td><?= $row['role']?></td>
-                    <td><?= $row['age']?></td>              
                     <td><a href="seller-edit/<?=$row['id']?>"><button style="width:100%" class="btn btn-info"><i class="fas fa-edit"></i></button></a></td>
                     <form method="POST" action="/seller-delete/<?=$row['id']?>">
                     {{ csrf_field() }}
