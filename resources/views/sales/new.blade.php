@@ -18,6 +18,7 @@
         <div class="form-group">
           <label for="client_id">Cliente</label>
           <select class="form-control" id="client_id" name="client_id" style="text-align: center">
+            <option value="0" selected>Cliente Padrão</option>
            <?php  foreach ($clients as $row) {
             ?><option value="<?=$row['id']?>"><?=$row['name']?></option>           
             <?php } ?>
@@ -26,7 +27,7 @@
         <br><br>
         <div class="form-group">
           <label for="sale_code">Senha do Pedido</label>
-          <input class="form-control" id="sale_code" type="text" name="sale_code" style="text-align: center">         
+          <input class="form-control" id="sale_code" type="text" required name="sale_code" style="text-align: center">         
         </div>
         <br><br>
         <br><span class="page-subtitle">Produtos</span><br>
@@ -71,14 +72,24 @@
      
           <input type="hidden" type="number" step="0.01" name="total-sell" id="total-sell" />  
           <input type="hidden" type="text" name="ids-products" id="ids-products">
-        <button class="w-100 btn btn-lg form-send" type="submit">Registrar</button>
+        <button class="w-100 btn btn-lg form-send" id="sendButton" type="submit">Registrar</button>
     </form>
     <script>
       /* Chat GPT */
       let total = 0;
 const addButtons = document.querySelectorAll('.add-button');
 const cartTable = document.querySelector('#cart-table');
+const sendButton = document.querySelector('#sendButton');
+
 const totalRow = document.createElement('tr');
+
+if (cartTable.rows.length > 1) {
+            sendButton.disabled = false;
+          } else {
+            sendButton.disabled = true;
+          }
+
+
 totalRow.classList.add('black-background');
 totalRow.innerHTML = `<td style="background-color:black; color:white">Total</td><td></td><td id="total-value"></td><td></td>`;
 cartTable.appendChild(totalRow);
@@ -90,6 +101,13 @@ addButtons.forEach(button => {
         const productId = productRow.querySelector('.product-id').textContent;
         const productName = productRow.querySelector('.product-name').textContent;
         const productPrice = parseFloat(productRow.querySelector('.product-price').textContent.replace(',', '.'));
+         /* Verifica se tem item GPT */
+         if (cartTable.rows.length > 1) {
+            sendButton.disabled = false;
+          } else {
+            sendButton.disabled = true;
+          }
+      /*  */
        /*  const quantity = productRow.querySelector('.product-quantity').value; */
         total += productPrice;
 

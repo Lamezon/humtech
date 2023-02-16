@@ -52,6 +52,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/sale-register', 'ProductSaleController@new');
         Route::get('/sale-edit/{id}', 'SaleController@edit');
         Route::post('/sale-edit/{id}', 'SaleController@save')->name('sale-edit');
+        Route::get('/sale-print/{id}', 'SaleController@print');
         Route::post('/sale-register', 'SaleController@register')->name('sale-register');
         Route::post('/sale-delete/{id}', 'SaleController@destroy');
         /* Report Routes */

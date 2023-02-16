@@ -25,6 +25,7 @@
                     <th scope="col">Vendedor</th>
                     <th scope="col">Total</th>
                     <th>Detalhes</th>
+                    <th>Imprimir</th>
                     <th>Deletar</th>
                 </tr>
                 </thead>
@@ -45,7 +46,8 @@
                         }
                     ?> 
                     <td>R$<?= $sale_row['total']?></td>      
-                    <td><a href="/sale-view/<?=$sale_row['id']?>"><button class="btn btn-block btn-edit"><i class="fa-solid fa-eye"></i></button></a></td>   
+                    <td><a href="/sale-view/<?=$sale_row['id']?>"><button class="btn btn-block btn-edit"><i class="fa-solid fa-eye"></i></button></a></td> 
+                    <td><a target="_blank" href="/sale-print/<?=$sale_row['id']?>"><button class="btn btn-block"><i class="fa-solid fa-print"></i></button></a></td>     
                     <form method="POST" action="/sale-delete/<?=$sale_row['id']?>">
                     {{ csrf_field() }}
                         <td><a><button class="btn btn-block btn-danger"><i class="fa-solid fa-trash-can"></i></button></a></td>

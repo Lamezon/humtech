@@ -16,9 +16,9 @@ class CreateClientTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->string('cpf', 255);
-            $table->string('phone', 255);
-            $table->string('address', 255)->default('');
+            $table->string('cpf', 255)->nullable()->default('0');
+            $table->string('phone', 255)->nullable()->default('0');
+            $table->string('address', 255)->nullable()->default('');
             $table->tinyInteger('del')->default('0');
             $table->timestamps();
         });
@@ -26,11 +26,11 @@ class CreateClientTable extends Migration
         DB::table('clients')->insert(
             array(
                 'id' => 0,
-                'name' => 'Não Registrado',
+                'name' => 'Cliente Padrão',
                 'cpf' => '0',
                 'phone' => '0',
                 'address' => '',
-                'del' => 0
+                'del' => 1
             )
         );
     }

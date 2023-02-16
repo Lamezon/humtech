@@ -18,7 +18,7 @@
         </div>
 
         <div class="form-group form-floating mb-3">
-            <input type="text" class="form-control" name="cpf" placeholder="CPF" required="required" autofocus>
+            <input type="text" class="form-control" name="cpf" placeholder="CPF">
             <label for="name">CPF do Cliente</label>
             @if ($errors->has('cpf'))
                 <span class="text-danger text-left">{{ $errors->first('cpf') }}</span>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group form-floating mb-3">
-            <input type="text" class="form-control" name="address" placeholder="Endereço" autofocus>
+            <input type="text" class="form-control" name="address" placeholder="Endereço">
             <label for="address">Endereço do Cliente</label>
             @if ($errors->has('address'))
                 <span class="text-danger text-left">{{ $errors->first('address') }}</span>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group form-floating mb-3">
-            <input type="text" class="form-control" name="phone" placeholder="Telefone" required="required" autofocus>
+            <input type="text" class="form-control" name="phone" placeholder="Telefone">
             <label for="name">Telefone do Cliente</label>
             @if ($errors->has('phone'))
                 <span class="text-danger text-left">{{ $errors->first('phone') }}</span>

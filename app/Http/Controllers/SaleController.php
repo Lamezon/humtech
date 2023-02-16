@@ -41,6 +41,21 @@ class SaleController extends Controller
         return view('sales.show', ['sale'=> $sale, 'codes'=>$codes, 'products'=>$result_product]);
     }
 
+
+    public function print($id)
+    {
+        $sale = DB::table('sales')->where('id', $id)->first();
+        $sale_description = DB::table('sales_products')->where('sale_id', $sale->id)->get();
+        $sale_desc = json_decode($sale_description, true);
+        $valores = explode(", ", $sale_desc[0]['products_code']);
+        $contagem = array_count_values($valores);
+        $prod_codes = ($sale_desc[0]['products_code']);
+        $codes = explode(',', $prod_codes);
+        $product = DB::table('products')->where('del', 0)->get();
+        $result_product = json_decode($product, true);
+        return view('sales.print', ['sale'=> $sale, 'codes'=>$codes, 'products'=>$result_product]);
+    }
+
     public function new()
     {
         $sellers = DB::table('sellers')->where('del', 0)->get();
