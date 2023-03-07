@@ -26,7 +26,7 @@ class EarnController extends Controller
         $earn['atual']=$_POST['total'];
         $earn->save();
         Log::channel('custom')->info('Caixa alterado. User: '.auth()->user()->name.'.');
-        return redirect('/clients-list')->with('success', "Valor de Caixa Atualizado");
+        return redirect('/sales-list')->with('success', "Valor de Caixa Atualizado");
     }
     public function status()
     {
@@ -41,7 +41,7 @@ class EarnController extends Controller
         $earn->save();
         Session::put('caixa', true);
         Log::channel('custom')->info('Caixa aberto. User: '.auth()->user()->name.'.');
-        return redirect('/clients-list')->with('success', "Caixa Aberto com Sucesso");
+        return redirect('/earn-list')->with('success', "Caixa Aberto com Sucesso");
     }
 
     public function fechar()
@@ -51,6 +51,6 @@ class EarnController extends Controller
         $earn->save();
         Session::put('caixa', false);
         Log::channel('custom')->info('Caixa fechaado. User: '.auth()->user()->name.'.');
-        return redirect('/clients-list')->with('success', "Caixa Fechado com Sucesso");
+        return redirect('/sales-list')->with('success', "Caixa Fechado com Sucesso");
     }
 }

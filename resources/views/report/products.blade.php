@@ -5,34 +5,25 @@
 <div class="bg-light p-5 rounded">
         @auth
        
-        <div class="container"> 
-            <h1 class="text-center mt-5">Relatório de Vendas</h1> 
-            <table class="table mt-5"> 
-               <thead> 
-                  <tr> 
-                     <th>Nome</th> 
-                     <th>Quantidade vendida</th> 
-                     <th>Horário da venda</th> 
-                  </tr> 
-               </thead> 
-               <tbody> 
-                  <tr> 
-                     <td>Produto 1</td> 
-                     <td>10</td> 
-                     <td>10:00</td> 
-                  </tr> 
-                  <tr> 
-                     <td>Produto 2</td> 
-                     <td>5</td> 
-                     <td>11:00</td> 
-                  </tr> 
-                  <tr> 
-                     <td>Produto 3</td> 
-                     <td>15</td> 
-                     <td>12:00</td> 
-                  </tr> 
-               </tbody> 
-            </table> 
-         </div> 
+        <h1 style="font-size: 30px"><strong>RELATÓRIO DE VENDAS TOTAIS</strong></h1><br><br>
+        <table class="table" style="width:100%"> 
+           <tr> 
+              <th>Nome</th> 
+              <th>Quantidade vendida</th>
+              <th>Total em Vendas (R$)</th>
+
+           </tr>
+           <tbody>
+            <?php
+                foreach ($products as $row)  
+                {?>
+                <tr> 
+                    <td><?= $row['name']?></td>
+                    <td><?= $row['sold_amount']?></td>
+                    <td>R$<?= ($row['sold_amount']*$row['price']) ?></td>             
+                </tr>  
+                <?php } ?>
+           </tbody>
+        </table>
         @endauth
 @endsection

@@ -5,7 +5,7 @@
 <div class="bg-light p-5 rounded">
         @auth
         <?php  foreach ($earn as $row) {
-            if($row['status']==false){
+            if($row['status']==false || $row['status']==null){
                 ?> <form method="post" action="/abrir-caixa">
                  <input type="hidden" name="_token" value="{{ csrf_token() }}" />  
                         <button style="color: black" class="btn btn-block btn-success" type="submit">Abrir Caixa</button>

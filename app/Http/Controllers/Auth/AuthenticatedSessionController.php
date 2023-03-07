@@ -56,7 +56,7 @@ class AuthenticatedSessionController extends Controller
         $earn['total']=$earn['atual'];
         $earn['status']=false;
         $earn->save();
-        Product::where('sold_amount_access', '!=' , 0)->update(['sold_amount_access' => 0]);    
+        Product::where('sold_amount_access', '!=' , 0)->update(['sold_amount_access' => 0]);   
         Log::channel('custom')->info('Caixa Atualizado por '.auth()->user()->name.'! Valor Anterior:'.$antigo.' - Valor Novo: '.$earn['total'].'.');
         Session::put('caixa', false);
         Auth::guard('web')->logout();    

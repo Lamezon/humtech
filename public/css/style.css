@@ -41,3 +41,12 @@ select#seller_id, select#product_id{
     color: darkred;
     text-decoration: underline;
 }
+
+@media (max-width:1025px) { 
+    .p-5 {
+        padding: 0rem !important;
+    }
+ }
+.p-5{
+
+}

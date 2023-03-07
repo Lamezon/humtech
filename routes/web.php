@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 Route::get('/dashboard', function () {
@@ -56,9 +56,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('/sale-register', 'SaleController@register')->name('sale-register');
         Route::post('/sale-delete/{id}', 'SaleController@destroy');
         /* Report Routes */
+        Route::get('/list-report', 'ReportController@list');
         Route::get('/report', 'ReportController@index');
         Route::get('/reports/products', 'ReportController@products');
-        Route::get('/reports/sellers', 'ReportController@sellers');
+        Route::get('/reports/clients', 'ReportController@clients');
         /* Caixa */
         Route::get('/status-caixa', 'EarnController@status');
         Route::post('/abrir-caixa', 'EarnController@abrir');

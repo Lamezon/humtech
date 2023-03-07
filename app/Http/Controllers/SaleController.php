@@ -6,6 +6,7 @@ use App\Http\Requests\SaleRequest;
 use App\Models\Sale;
 use App\Models\User;
 use App\Models\Earn;
+use App\Models\Client;
 use App\Models\Product;
 use App\Models\SalesProduct;
 use App\Models\Seller;
@@ -84,6 +85,10 @@ class SaleController extends Controller
         $earn->save();
       
         $sale->save();
+        $client = Client::where('id', '=', $request['client_id'])->first();
+        $client['total']+=$total;
+        $client['times']+=1;
+        $client->save();
         
         $prod_desc = new SalesProduct();
         $prod_desc->sale_id = $sale->id;
@@ -95,9 +100,10 @@ class SaleController extends Controller
         $sale_desc = json_decode($sale_description, true);
         $valores = explode(",", $sale_desc[0]['products_code']);
         foreach ($valores as &$valor) {
+            DB::table('products')->whereId((int)($valor))->increment('sold_amount', 1);
             DB::table('products')->whereId((int)($valor))->increment('sold_amount_access', 1);
         }
-
+      
         Log::channel('custom')->info('Caixa alterado. User: '.auth()->user()->name.'.');
         return redirect('/sales-list')->with('success', "Venda Registrada");
     }
