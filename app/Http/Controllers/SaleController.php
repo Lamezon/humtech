@@ -65,6 +65,9 @@ class SaleController extends Controller
         $result_product = json_decode($product, true);
         $clients = DB::table('clients')->where('del', 0)->get();
         $result_clients = json_decode($clients, true);
+        $sale = DB::table('sales')->last();
+        $result_sale = json_decode($sale, true);
+        var_dump($result_sale);
         return view('sales.new', ['seller'=>$result_seller, 'product'=>$result_product, 'client'=>$result_clients]);
     }
 
@@ -76,6 +79,7 @@ class SaleController extends Controller
         $sale = new Sale();
         $sale->code = $request['sale_code'];
         $sale->seller_id = $seller['id'];
+        $sale->payment = $request['payment'];
         $sale->client_id = $request['client_id'];
         $total = doubleval(str_replace(',', '.', request('total-sell')));
         $sale->total = $total;
@@ -85,7 +89,7 @@ class SaleController extends Controller
         $earn->save();
       
         $sale->save();
-        $client = Client::where('id', '=', $request['client_id'])->first();
+        $client = Client::where('id', '=', ($request['client_id']))->first();
         $client['total']+=$total;
         $client['times']+=1;
         $client->save();
@@ -105,20 +109,15 @@ class SaleController extends Controller
         }
       
         Log::channel('custom')->info('Caixa alterado. User: '.auth()->user()->name.'.');
-        return redirect('/sales-list')->with('success', "Venda Registrada");
+      
+        return redirect('/sales-list')->with('success', "Venda Registrada")->with('newtab', $sale->id);
     }
 
 /* Setting del = 1 (no data lost) */
     public function destroy($id)
     {
         Sale::where('id', $id)->update(['del' => 1]);
-
-        $sale = Sale::where('id', '=', $id)->first();
-        DB::table('products')->whereId($sale['product_id'])->decrement('profit', (int)$sale['total']);
-        DB::table('products')->whereId($sale['product_id'])->decrement('sold_amount', (int)$sale['quantity']);
-        DB::table('sellers')->whereId($sale['seller_id'])->decrement('sales_total', (int)$sale['total']);
-        DB::table('sellers')->whereId($sale['seller_id'])->decrement('sales_quantity', 1);
-
+      
         Log::channel('custom')->info('Venda de ID = '.$id.' deletada por '.auth()->user()->name.'.');
         return redirect('/sales-list')->with('success', "Venda Removida");
     }

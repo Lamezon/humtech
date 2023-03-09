@@ -16,6 +16,16 @@ class ProductSaleController extends Controller
         $result_product = json_decode($product, true);
         $client = DB::table('clients')->where('del', 0)->get();
         $client_result = json_decode($client, true);
-        return view('sales.new', ['clients'=>$client_result, 'products'=>$result_product]);
+        $sale = DB::table('sales')->where('del', 0)->orderBy('id', 'desc')->first();
+        if($sale==null){
+            $code = 0;
+        }else{
+            $code = $sale->code;
+        }
+        $code++;
+        if($code>99){
+            $code += -99;
+        }
+        return view('sales.new', ['clients'=>$client_result, 'products'=>$result_product, 'code'=>$code]);
     }
 }

@@ -24,3 +24,15 @@
         </div>
     @endif
 @endif
+
+@if(Session::get('newtab', true))
+   
+    <?php $data = Session::get('newtab'); ?>
+
+        <div class="alert alert-info" role="alert">
+            <i class="fa fa-2x fa-print"></i>
+            <a target="_blank" href="sale-print/{{$data}}">Abrir pedido</a> 
+        </div>
+         <?php Session::put('newtab',false) ?>
+       
+@endif

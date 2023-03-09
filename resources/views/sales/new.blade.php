@@ -18,7 +18,7 @@
         <div class="form-group">
           <label for="client_id">Cliente</label>
           <select class="form-control" id="client_id" name="client_id" style="text-align: center">
-            <option value="0" selected>Cliente Padrão</option>
+            <option value=1 selected>Cliente Padrão</option>
            <?php  foreach ($clients as $row) {
             ?><option value="<?=$row['id']?>"><?=$row['name']?></option>           
             <?php } ?>
@@ -26,8 +26,19 @@
         </div>
         <br><br>
         <div class="form-group">
+          <label for="payment">Forma de Pagamento</label>
+          <select class="form-control" id="payment" name="payment" style="text-align: center">
+            
+            <option selected value="Dinheiro" >Dinheiro</option>
+            <option  value="Cartão" >Cartão</option>
+            <option value="PIX" >PIX</option>
+          
+          </select>
+          <br><br>
+        </div>
+        <div class="form-group">
           <label for="sale_code">Senha do Pedido</label>
-          <input class="form-control" id="sale_code" type="text" required name="sale_code" style="text-align: center">         
+          <input class="form-control" id="sale_code" value="<?=$code?>" type="text" required name="sale_code" style="text-align: center">         
         </div>
         <br><br>
         <br><span class="page-subtitle">Produtos</span><br>
