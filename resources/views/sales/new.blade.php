@@ -25,17 +25,7 @@
           </select>
         </div>
         <br><br>
-        <div class="form-group">
-          <label for="payment">Forma de Pagamento</label>
-          <select class="form-control" id="payment" name="payment" style="text-align: center">
-            
-            <option selected value="Dinheiro" >Dinheiro</option>
-            <option  value="Cartão" >Cartão</option>
-            <option value="PIX" >PIX</option>
-          
-          </select>
-          <br><br>
-        </div>
+        
         <div class="form-group">
           <label for="sale_code">Senha do Pedido</label>
           <input class="form-control" id="sale_code" value="<?=$code?>" type="text" required name="sale_code" style="text-align: center">         
@@ -79,8 +69,18 @@
             </thead>
             <tbody>
             </tbody>
-          </table>
-     
+          </table><br><br>
+          <div class="form-group">
+            <label for="payment">Forma de Pagamento</label>
+            <select class="form-control" id="payment" name="payment" style="text-align: center">
+              
+              <option selected value="Dinheiro" >Dinheiro</option>
+              <option  value="Cartão" >Cartão</option>
+              <option value="PIX" >PIX</option>
+            
+            </select>
+            <br><br>
+          </div>
           <input type="hidden" type="number" step="0.01" name="total-sell" id="total-sell" />  
           <input type="hidden" type="text" name="ids-products" id="ids-products">
         <button class="w-100 btn btn-lg form-send" id="sendButton" type="submit">Registrar</button>

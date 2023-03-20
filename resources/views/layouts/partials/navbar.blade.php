@@ -44,11 +44,7 @@
             <a href="/products-list" class="nav-link px-6 col-sm-6 col-xs-12 text-white btn btn-outline-secondary">Produtos</a>
             <a href="/earn-list" class="nav-link px-6 col-sm-6 col-xs-12 text-white btn btn-outline-secondary">Alteração de Caixa (Administrativo)</a>
             <a href="/list-report" class="nav-link px-6 col-sm-12 col-xs-12 text-white btn btn-outline-secondary">Relatorios</a>
-          <?php } else { ?>
-            <a style="pointer-events: none; background-color:lightgray; color:gray;" class="nav-link px-6 col-sm-6 col-xs-12 text-white btn btn-outline-secondary">Produtos </a>
-            
-            <a style="pointer-events: none; background-color:lightgray; color:gray;" class="nav-link px-6 col-sm-6 col-xs-12 text-white btn btn-outline-secondary">Vendedores</a>
-            <?php } ?>
+          <?php } ?>
         </div>
       </ul>
       @endauth

@@ -14,7 +14,7 @@
 
 
 
-        <table class="table">
+        <table class="table" style="width:100%">
             <hr>
             <span class="page-title"><strong>Produtos Vendidos</strong></span>
 
@@ -25,15 +25,15 @@
                   foreach($products as $item) {
                  
                     if($item['id']==(int)$code){
-                      ?> <tr>
-                            <td> <i><?=$item['name']?></i> - R$<?=$item['price']?></td>
+                      ?> <tr style="text-align: center; width:100%">
+                            <td> <strong><i><?=$item['name']?></i> - R$<?=$item['price']?></strong></td>
                          </tr><?php
                     }
                   }
                 } ?>
                 </tbody>
 
-              </table>
+              </table><br>
               <span><strong>Total: R$<?=$sale->total?></strong></span><br><br> <hr>
               <span style="font-size: 12px">*** ESTE TICKET NÃO É UM DOCUMENTO FISCAL ***</span><br>
               <span style="font-size: 10px">OBRIGADO E VOLTE SEMPRE</span>
