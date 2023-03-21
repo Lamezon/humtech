@@ -5,7 +5,7 @@
       <div class="text-end">
         
       
-          <a href="/report"><button class="btn btn-danger">Sair
+          <a href="/report-logout"><button class="btn btn-danger">Sair
           </button></a>
         </form>
       </div>

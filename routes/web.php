@@ -58,8 +58,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         /* Report Routes */
         Route::get('/list-report', 'ReportController@list');
         Route::get('/report', 'ReportController@index');
+        Route::post('/reports', 'ReportController@filter')->name('report-index');
         Route::get('/reports/products', 'ReportController@products');
         Route::get('/reports/clients', 'ReportController@clients');
+        Route::get('/report-logout', 'ReportController@logout');
         /* Caixa */
         Route::get('/status-caixa', 'EarnController@status');
         Route::post('/abrir-caixa', 'EarnController@abrir');
